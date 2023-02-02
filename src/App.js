@@ -1,54 +1,60 @@
 import React from "react";
-import Counter from "./components/Counter";
+import TodoList from "./components/todoList/TodoList";
+import Input from "./components/Input/Input";
+import Button from "./components/Button/Button";
+import Form from "./components/Form/Form";
 import "./App.css";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log("constructor");
-    this.state = { counter: 0, name: "", surname: "" };
-  }
-
-  handleClick = () => {
-    this.setState((prevState) => ({ counter: prevState.counter + 1 }));
+  state = {
+    todo: [
+      { name: "Learn React", id: "1298345", status: "wip" },
+      { name: "Add todo", id: "98234", status: "wip" },
+      { name: "Play football", id: "8934", status: "wip" },
+      { name: "Make hw", id: "23", status: "wip" },
+    ],
+    inputValue: "",
   };
 
   handleInputChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ inputValue: event.target.value });
   };
-  componentDidMount() {
-    console.log("Did mount");
-  }
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log("Should component update", nextProps, nextState);
-    return true;
-  }
-  componentDidUpdate(prevProps, prevState) {
-    console.log("Component did update", prevProps, prevState);
-  }
-  componentDidCatch() {}
+
+  addTodo = () => {
+    if (!this.state.inputValue) return;
+    this.setState((prevState) => {
+      return {
+        todo: [
+          ...prevState.todo,
+          { name: prevState.inputValue, id: new Date(), status: "wip" },
+        ],
+        inputValue: "",
+      };
+    });
+  };
+
+  deleteTodo = (todoId) => {
+    this.setState((prevState) => {
+      return {
+        todo: prevState.todo.filter((todoItem) => todoItem.id !== todoId),
+      };
+    });
+  };
 
   render() {
-    console.log("render");
     return (
-      <div className="App">
-        <header className="App-header">
-          <Counter
-            counter={this.state.counter}
-            handleClick={this.handleClick}
-          />
-          <input
-            name="name"
-            value={this.state.name}
-            onChange={this.handleInputChange}
-          />
-          <input
-            name="surname"
-            value={this.state.surname}
-            onChange={this.handleInputChange}
-          />
-        </header>
-      </div>
+      <Form>
+        <div className="App">
+          <header className="App-header">
+            <TodoList list={this.state.todo} deleteTodo={this.deleteTodo} />
+            <Input
+              value={this.state.inputValue}
+              handleInputChange={this.handleInputChange}
+            />
+            <Button onClick={this.addTodo}>Add Todo</Button>
+          </header>
+        </div>
+      </Form>
     );
   }
 }
