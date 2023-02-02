@@ -3,25 +3,33 @@ import Counter from "./components/Counter";
 import "./App.css";
 
 class App extends React.Component {
-  state = { counter: 0, name: "", surname: "" };
-  inputRef = React.createRef(null);
+  constructor(props) {
+    super(props);
+    console.log("constructor");
+    this.state = { counter: 0, name: "", surname: "" };
+  }
 
   handleClick = () => {
-    // this.inputRef.current.focus();
-    this.setState(
-      (prevState) => ({ counter: prevState.counter + 1 }),
-      () => {
-        console.log("App state has updated");
-      }
-    );
+    this.setState((prevState) => ({ counter: prevState.counter + 1 }));
   };
 
   handleInputChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
+  componentDidMount() {
+    console.log("Did mount");
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("Should component update", nextProps, nextState);
+    return true;
+  }
+  componentDidUpdate(prevProps, prevState) {
+    console.log("Component did update", prevProps, prevState);
+  }
   componentDidCatch() {}
+
   render() {
-    // console.log("Input ref", this.inputRef.current);
+    console.log("render");
     return (
       <div className="App">
         <header className="App-header">

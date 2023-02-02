@@ -1,6 +1,9 @@
 import React from "react";
 
 class Counter extends React.Component {
+  componentWillUnmount() {
+    console.log("Component will unmount");
+  }
   render() {
     return (
       <div>
