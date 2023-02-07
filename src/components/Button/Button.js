@@ -1,13 +1,11 @@
 import React from "react";
 
-class Button extends React.Component {
-  render() {
-    return (
-      <button onClick={this.props.onClick} style={{ marginTop: "20px" }}>
-        {this.props.children}
-      </button>
-    );
-  }
-}
+const Button = ({ onClick, children }) => {
+  return (
+    <button onClick={onClick} style={{ margin: "0 10px" }}>
+      {children}
+    </button>
+  );
+};
 
 export default Button;

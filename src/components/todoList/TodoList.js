@@ -1,20 +1,30 @@
-import React from "react";
-import Button from "../Button/Button";
+import React, { useContext } from "react";
 import { FormContext } from "../Form/Form";
+import { TodoItem } from "../TodoItem/TodoItem";
 
-class TodoList extends React.Component {
-  render() {
-    console.log(this.context);
-    return this.props.list.map((todo) => {
-      return (
-        <React.Fragment key={todo.id}>
-          <div>{todo.name}</div>
-          <Button onClick={() => this.props.deleteTodo(todo.id)}>delete</Button>
-        </React.Fragment>
-      );
-    });
+const TodoList = ({ itemsStatusToShow, list, deleteTodo, changeStatus }) => {
+  const ctx = useContext(FormContext);
+  console.log(ctx);
+  const changeStatusButtonText =
+    itemsStatusToShow === "wip" ? "finish it" : "return back";
+
+  const filteredList = list?.filter(
+    (todo) => todo.status === itemsStatusToShow
+  );
+
+  if (!filteredList.length) {
+    return "Empty list";
   }
-}
 
-TodoList.contextType = FormContext;
+  return filteredList.map((todo) => (
+    <TodoItem
+      key={todo.id}
+      todo={todo}
+      changeStatusButtonText={changeStatusButtonText}
+      changeStatus={changeStatus}
+      deleteTodo={deleteTodo}
+    />
+  ));
+};
+
 export default TodoList;

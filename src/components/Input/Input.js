@@ -1,16 +1,16 @@
 import React from "react";
 
-class Input extends React.Component {
-  render() {
-    return (
-      <input
-        type="text"
-        value={this.props.value}
-        onChange={this.props.handleInputChange}
-        style={{ marginTop: "50px" }}
-      />
-    );
-  }
-}
+const Input = ({ placeholder, handleInputChange = () => {}, value }) => {
+  // console.log("render");
+  return (
+    <input
+      type="text"
+      placeholder={placeholder}
+      value={value}
+      onChange={handleInputChange}
+      style={{ margin: "50px 0 15px" }}
+    />
+  );
+};
 
-export default Input;
+export default React.memo(Input);
